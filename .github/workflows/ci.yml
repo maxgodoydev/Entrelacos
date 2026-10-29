@@ -1,0 +1,28 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12", cache: pip }
+      - run: pip install -r requirements.txt
+      - name: Testes
+        run: python -m unittest discover -s tests -v
+      - name: Catálogo válido
+        run: python -m entrelacos validar
+      - name: site/products.json em sincronia com o CSV
+        run: |
+          python -m entrelacos build
+          git diff --exit-code site/products.json
+      - name: Dados de demonstração reprodutíveis (mesma semente, mesmos arquivos)
+        run: |
+          python -m entrelacos demo
+          git diff --exit-code data/eventos_demo.csv data/vendas_demo.csv
+      - name: Relatório sem problemas de qualidade
+        run: python -m entrelacos analisar
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: Sintaxe do JavaScript do site
+        run: node --check site/script.js

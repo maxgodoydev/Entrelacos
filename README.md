@@ -1,77 +1,177 @@
-# EntreLaços — pipeline de catálogo e análise de funil
+<div align="center">
 
-Projeto de portfólio em **Python** que mantém o catálogo de uma vitrine de presentes em um CSV, valida os dados,
-gera o site estático e analisa o funil visita → detalhes → pedido → venda, com relatório e gráficos.
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&section=header&height=160&text=ENTRELA%C3%87OS&fontSize=44&fontColor=FFF7FB&fontAlignY=45&animation=fadeIn&color=0:180617,35:4A0D2E,70:C23B87,100:FF8FBD" />
 
-![funil](reports/funil.png)
+<img src="https://capsule-render.vercel.app/api?type=transparent&height=40&text=VITRINE%20%20%E2%80%A2%20%20PIPELINE%20%20%E2%80%A2%20%20FUNIL&fontSize=13&fontColor=E9C6DA&fontAlignY=35" />
 
-> **Estado honesto**
-> - **Ninguém usa a vitrine.** Não há tráfego nem vendas reais; os eventos e as vendas de `data/*_demo.csv` são
->   **simulados** (semente fixa, premissas em `entrelacos/simulacao.py`). Os números do relatório refletem essas
->   premissas, não o mercado: o que o projeto demonstra é o **pipeline**, não um resultado de negócio.
-> - O site **não coleta eventos** hoje. O esquema que uma coleta teria está em [`docs/esquema-de-eventos.md`](docs/esquema-de-eventos.md).
-> - O front foi exercitado em DOM simulado (jsdom) e por testes, **não** em navegador real. A configuração da Vercel
->   (`outputDirectory: site`) não foi testada em deploy; se necessário, defina *Root Directory = site* no painel.
+**🎀 &nbsp;Vitrine digital de presentes com atendimento pelo WhatsApp&nbsp; 🎀**
 
-## O que o pipeline faz
+<table>
+<tr>
+<td align="center">
+<img src="https://img.shields.io/badge/01-VITRINE-2A0A1F?style=flat-square&labelColor=8A2BE2" />
+<br><sub>Catálogo e pedido</sub>
+</td>
+<td align="center">
+<img src="https://img.shields.io/badge/02-PIPELINE-2A0A1F?style=flat-square&labelColor=C23B87" />
+<br><sub>Validação e build</sub>
+</td>
+<td align="center">
+<img src="https://img.shields.io/badge/03-FUNIL-2A0A1F?style=flat-square&labelColor=FF8FBD" />
+<br><sub>Métricas e relatório</sub>
+</td>
+</tr>
+</table>
 
+<br>
+
+<a href="https://entrelacos-vitrine.vercel.app"><img src="https://img.shields.io/badge/🌐_ACESSAR_A_VITRINE-entrelacos--vitrine.vercel.app-C23B87?style=for-the-badge&labelColor=4A0D2E" alt="Acessar a vitrine" /></a>
+
+<br><br>
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
+
+</div>
+
+## 💝 Sobre o projeto
+
+Um colega de classe revende kits de marcas conhecidas e divulgava tudo em fotos soltas e mensagens. O cliente precisava perguntar preço, detalhes e disponibilidade um a um.
+
+O **EntreLaços** reúne os kits numa vitrine organizada. O cliente escolhe, toca em **Pedir** e continua a conversa no WhatsApp com a mensagem já montada. Depois que virou projeto de portfólio, ganhou um pipeline em Python que valida o catálogo, gera o site e analisa o funil de intenção.
+
+| Problema | Solução | Tecnologias |
+|---|---|---|
+| Divulgação espalhada em fotos e mensagens, com escolha difícil e atendimento repetitivo | Vitrine estática com filtros e detalhes, mais pipeline que valida o catálogo e analisa o funil *visita → detalhes → pedido → venda* | ![Python](https://img.shields.io/badge/-Python-8A2BE2?style=flat&logo=python&logoColor=white) ![HTML/CSS/JS](https://img.shields.io/badge/-HTML%20·%20CSS%20·%20JS-C23B87?style=flat) ![GitHub Actions](https://img.shields.io/badge/-GitHub%20Actions-4A0D2E?style=flat&logo=githubactions&logoColor=white) ![Vercel](https://img.shields.io/badge/-Vercel-000000?style=flat&logo=vercel&logoColor=white) |
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
+
+## 🚦 Estado do projeto
+
+| Item | Situação |
+|---|---|
+| Vitrine publicada | ✅ Online na Vercel |
+| Uso real | ✅ Houve uso. Atendimento e pagamento aconteciam no WhatsApp, fora do site |
+| Dados reais | 🔒 Removidos por privacidade, principalmente as conversas de atendimento |
+| Dados do relatório | 🧪 **Simulados** (semente fixa, premissas em `entrelacos/simulacao.py`), sem relação com as vendas reais |
+| Coleta de eventos no site | ❌ Não implementada. Esquema previsto em [`docs/esquema-de-eventos.md`](docs/esquema-de-eventos.md) |
+| Testes do front | ⚠️ Em DOM simulado (jsdom), não em navegador real |
+| Config da Vercel | ⚠️ `outputDirectory: site` não testado em deploy. Se falhar, use *Root Directory = site* |
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
+
+## ⚙️ Como funciona
+
+```mermaid
+flowchart LR
+    A[catalogo.csv] --> B[validar] --> C[build] --> D[site/products.json]
+    E[simulação] --> F[eventos e vendas demo] --> G[qualidade] --> H[métricas] --> I[relatório + gráficos]
 ```
-data/catalogo.csv ──► validar ──► build ──► site/products.json  (+ site/config.json)
-        │                                         └─ o site (HTML/CSS/JS) lê só esses arquivos
-        └─ regras: id único, preço > 0, preço antigo > preço, imagem existe,
-           categorias "até R$ 100" e "premium" derivadas do preço (não digitadas)
 
-simulacao ──► data/eventos_demo.csv + vendas_demo.csv ──► qualidade ──► métricas ──► reports/relatorio.md + PNG
-```
+<div align="center">
+  <img src="reports/funil.png" alt="Funil simulado" width="600" /><br>
+  <sub>Funil gerado com dados <b>simulados</b></sub>
+</div>
 
-- **Fonte única do catálogo:** antes, os produtos existiam em dois lugares (`products.json` e uma cópia dentro do
-  `script.js`), e editar só um deles mostraria preço errado se o `fetch` falhasse. Agora há só o CSV; o JSON é gerado e a CI
-  falha se estiver fora de sincronia.
-- **Qualidade de dados:** 11 checagens em eventos e vendas (ids duplicados, produto inexistente, sessão sem visita,
-  venda órfã, venda anterior ao clique…), todas cobertas por teste.
-- **Atribuição:** cada clique em "Pedir" gera um código `EL-XXXX` na mensagem do WhatsApp. Se o vendedor anotar o código
-  da venda, clique e venda se ligam. O relatório mostra a **cobertura de receita atribuída** (o que não dá para ligar).
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
 
-## Como rodar
+## 🧠 Decisões técnicas
+
+| Decisão | Por quê |
+|---|---|
+| **CSV como fonte única** | Antes os produtos existiam em dois lugares (`products.json` e cópia no `script.js`), e editar só um mostrava preço errado. Agora o JSON é gerado e a CI falha se sair de sincronia |
+| **Categorias derivadas do preço** | "Até R$ 100" e "premium" não são digitadas, então não ficam inconsistentes |
+| **Validação antes do build** | Id único, preço > 0, preço antigo > preço, imagem existente |
+| **11 checagens de qualidade** | Ids duplicados, produto inexistente, venda órfã, venda anterior ao clique etc., todas com teste |
+| **Código `EL-XXXX` no pedido** | Liga clique e venda se o vendedor anotar o código. O relatório mostra a **cobertura de receita atribuída** |
+| **Site estático** | Sem backend para manter ou pagar, suficiente para um catálogo pequeno |
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
+
+## 🧩 Competências aplicadas
+
+<div align="center">
+
+| Área | Aplicação no projeto |
+|:---:|---|
+| 🗃️ **Qualidade de dados** | Validação do catálogo e 11 checagens em eventos e vendas |
+| 🔗 **Atribuição** | Ligação entre clique e venda por código no pedido |
+| 📊 **Análise de funil** | Métricas de conversão, relatório e gráficos |
+| ⚙️ **Automação** | CI com testes, sincronia do JSON e reprodutibilidade dos dados |
+| 🎨 **Front-end** | Vitrine estática responsiva, com filtros, detalhes e pedido por WhatsApp |
+
+</div>
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
+
+## ▶️ Como rodar
 
 ```bash
 python -m venv .venv && source .venv/bin/activate    # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
-python -m entrelacos tudo        # validar + build + demo + analisar
-python -m unittest discover -s tests -v
+python -m entrelacos tudo                  # validar + build + demo + analisar
+python -m unittest discover -s tests -v    # 22 testes
 ```
 
 | Comando | O que faz |
 |---|---|
-| `python -m entrelacos validar` | valida `data/catalogo.csv` e a configuração |
-| `python -m entrelacos build` | gera `site/products.json` e `site/config.json` |
-| `python -m entrelacos demo` | gera dados **simulados** (semente fixa) |
-| `python -m entrelacos analisar` | checa a qualidade e escreve `reports/` |
+| `python -m entrelacos validar` | Valida `data/catalogo.csv` e a configuração |
+| `python -m entrelacos build` | Gera `site/products.json` e `site/config.json` |
+| `python -m entrelacos demo` | Gera dados simulados |
+| `python -m entrelacos analisar` | Checa a qualidade e escreve `reports/` |
 
 Para ver o site: `python -m http.server -d site 8000` e abrir `http://localhost:8000`.
 
-## Configuração do WhatsApp
-O repositório usa um **número marcador** (`55XXXXXXXXXXX`). Para publicar, defina antes do `build`:
-`WHATSAPP_NUMBER=5511999999999` e, opcionalmente, `SELLER_NAME=Nome`. O `validar` avisa se o número não estiver no formato.
+<details>
+<summary><b>📲 Configurar o WhatsApp</b></summary>
 
-## Estrutura
-```
-entrelacos/   catalogo · simulacao · qualidade · metricas · relatorio · CLI (Python)
-data/         catalogo.csv (fonte) · config.json · eventos_demo.csv · vendas_demo.csv (simulados)
-reports/      relatorio.md e gráficos gerados
-site/         vitrine estática (saída): HTML, CSS, JS e imagens
-tests/        22 testes (unittest)
-docs/         esquema de eventos e regras de atribuição
-.github/      CI: testes, sincronia do JSON, reprodutibilidade dos dados, relatório e sintaxe do JS
+<br>
+
+O repositório usa um número marcador (`55XXXXXXXXXXX`) por privacidade. Antes do `build`:
+
+```bash
+export WHATSAPP_NUMBER=5511999999999   # DDI + DDD + número, sem espaços
+export SELLER_NAME="Nome"              # opcional
 ```
 
-## Limites conhecidos
-- Vendas sem código (cliente apagou, ou comprou depois por outro canal) não são atribuíveis.
-- O vendedor precisaria registrar cada venda numa planilha para fechar o ciclo; sem isso só existe funil de intenção.
+O `validar` avisa se o formato estiver errado.
+
+</details>
+
+<details>
+<summary><b>🗺️ Estrutura do repositório</b></summary>
+
+<br>
+
+| Pasta | Conteúdo |
+|---|---|
+| `entrelacos/` | catálogo, simulação, qualidade, métricas, relatório e CLI |
+| `data/` | `catalogo.csv` (fonte), `config.json`, dados `*_demo.csv` |
+| `reports/` | relatório e gráficos gerados |
+| `site/` | vitrine estática (saída do build) |
+| `tests/` | 22 testes (`unittest`) |
+| `docs/` | esquema de eventos e regras de atribuição |
+| `.github/` | workflows da CI |
+
+</details>
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=rect&height=3&color=0:4A0D2E,45:C23B87,100:FF8FBD" />
+
+## 🚧 Limites conhecidos
+
+- Vendas sem código (cliente apagou a mensagem ou comprou por outro canal) não são atribuíveis.
+- Sem o vendedor registrar as vendas numa planilha, só existe funil de **intenção**.
 - Amostra pequena não sustenta testes estatísticos entre produtos.
 - O preço "De/Por" precisa ser um preço anterior real (Código de Defesa do Consumidor).
 
-## Origem
-Vitrine HTML/CSS/JS feita para um vendedor de presentes; reformulada como projeto de dados e automação.
-Marcas e produtos pertencem aos respectivos fabricantes; uso demonstrativo, sem fins comerciais.
+## 📌 Sobre os dados
+
+Os dados reais de atendimento foram removidos por privacidade. Eventos e vendas do relatório são simulados e demonstram o pipeline, não conclusões sobre o negócio. Marcas e produtos pertencem aos respectivos fabricantes, com uso demonstrativo e sem fins comerciais.
+
+<div align="center">
+
+Feito por **[Max Godoy](https://github.com/maxgodoydev)** 💜
+
+<img width="100%" src="https://capsule-render.vercel.app/api?type=waving&section=footer&height=100&color=0:FF8FBD,50:C23B87,100:180617" />
+
+</div>

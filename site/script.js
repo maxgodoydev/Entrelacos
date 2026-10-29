@@ -1,249 +1,7 @@
-const WHATSAPP_NUMBER = "5511964661995";
-const SELLER_NAME = "Rómulo";
-
-const fallbackProducts = [
-  {
-    "id": "kit-para-seu-amor",
-    "name": "Kit Para Seu Amor",
-    "line": "Tododia Ameixa e Flor de Baunilha",
-    "price": 134.9,
-    "oldPrice": 149.9,
-    "image": "assets/images/kit-para-seu-amor.webp",
-    "imageWidth": 1122,
-    "imageHeight": 1402,
-    "badge": "Romântico",
-    "categories": [
-      "todos",
-      "ela"
-    ],
-    "tags": [
-      "Doce",
-      "Delicado"
-    ],
-    "details": [
-      [
-        "Fixação",
-        "até 6h na pele"
-      ],
-      [
-        "Acorde",
-        "frutal adocicado com fundo amadeirado cremoso"
-      ],
-      [
-        "Combinação do kit",
-        "creme nutritivo para o corpo + body splash"
-      ],
-      [
-        "Indicação",
-        "para quem gosta de presente delicado, cheiroso e romântico"
-      ]
-    ]
-  },
-  {
-    "id": "mimo-romantico",
-    "name": "Mimo Romântico",
-    "line": "Linha Tododia",
-    "price": 69.9,
-    "oldPrice": 84.9,
-    "image": "assets/images/mimo-romantico.webp",
-    "imageWidth": 1122,
-    "imageHeight": 1402,
-    "badge": "Acessível",
-    "categories": [
-      "todos",
-      "ela",
-      "ate100"
-    ],
-    "tags": [
-      "Até R$ 100",
-      "Mimo"
-    ],
-    "details": [
-      [
-        "Fixação",
-        "4 a 6h"
-      ],
-      [
-        "Acorde",
-        "adocicado suave"
-      ],
-      [
-        "Combinação do kit",
-        "hidratante Tododia + embalagem especial"
-      ],
-      [
-        "Indicação",
-        "para uma lembrança bonita, prática e carinhosa"
-      ]
-    ]
-  },
-  {
-    "id": "carinho-em-presente",
-    "name": "Carinho em Presente",
-    "line": "Linha Tododia",
-    "price": 76.9,
-    "oldPrice": 89.9,
-    "image": "assets/images/carinho-em-presente.webp",
-    "imageWidth": 1122,
-    "imageHeight": 1402,
-    "badge": "Queridinho",
-    "categories": [
-      "todos",
-      "ela",
-      "ate100"
-    ],
-    "tags": [
-      "Leve",
-      "Versátil"
-    ],
-    "details": [
-      [
-        "Fixação",
-        "4 a 6h"
-      ],
-      [
-        "Acorde",
-        "suave e confortável"
-      ],
-      [
-        "Combinação do kit",
-        "body splash Tododia + mimo de banho + embalagem especial"
-      ],
-      [
-        "Indicação",
-        "para quem quer um presente leve, cheiroso e com boa apresentação"
-      ]
-    ]
-  },
-  {
-    "id": "essencial-classico",
-    "name": "Essencial Clássico",
-    "line": "Deo Parfum Masculino",
-    "price": 225.9,
-    "oldPrice": 249.9,
-    "image": "assets/images/essencial-classico.webp",
-    "imageWidth": 1122,
-    "imageHeight": 1402,
-    "badge": "Elegante",
-    "categories": [
-      "todos",
-      "ele",
-      "premium"
-    ],
-    "tags": [
-      "Amadeirado",
-      "Sofisticado"
-    ],
-    "details": [
-      [
-        "Fixação",
-        "aprox. 10h"
-      ],
-      [
-        "Acorde",
-        "amadeirado aromático"
-      ],
-      [
-        "Notas",
-        "bergamota, lavanda, patchouli e madeiras nobres"
-      ],
-      [
-        "Combinação do kit",
-        "deo parfum 100 ml + embalagem presenteável"
-      ],
-      [
-        "Indicação",
-        "para quem gosta de fragrância elegante, masculina e marcante"
-      ]
-    ]
-  },
-  {
-    "id": "essencial-safran",
-    "name": "Essencial Safran",
-    "line": "Luxo e intensidade",
-    "price": 222.9,
-    "oldPrice": 239.9,
-    "image": "assets/images/essencial-safran.webp",
-    "imageWidth": 1122,
-    "imageHeight": 1402,
-    "badge": "Premium",
-    "categories": [
-      "todos",
-      "ela",
-      "premium"
-    ],
-    "tags": [
-      "Até 14h",
-      "Marcante"
-    ],
-    "details": [
-      [
-        "Fixação",
-        "até 14h"
-      ],
-      [
-        "Acorde",
-        "amadeirado especiado"
-      ],
-      [
-        "Notas",
-        "açafrão, paramela e madeiras nobres"
-      ],
-      [
-        "Combinação do kit",
-        "deo parfum + embalagem especial"
-      ],
-      [
-        "Indicação",
-        "para quem quer impressionar com um presente mais sofisticado"
-      ]
-    ]
-  },
-  {
-    "id": "essencial-atrai",
-    "name": "Essencial Atrai",
-    "line": "Fragrância marcante",
-    "price": 234.9,
-    "oldPrice": 259.9,
-    "image": "assets/images/essencial-atrai.webp",
-    "imageWidth": 1122,
-    "imageHeight": 1402,
-    "badge": "Destaque",
-    "categories": [
-      "todos",
-      "ele",
-      "premium"
-    ],
-    "tags": [
-      "Intenso",
-      "Amadeirado"
-    ],
-    "details": [
-      [
-        "Fixação",
-        "aprox. 10h"
-      ],
-      [
-        "Acorde",
-        "amadeirado especiado"
-      ],
-      [
-        "Notas",
-        "pimenta rosa e madeiras nobres"
-      ],
-      [
-        "Combinação do kit",
-        "dupla Essencial Atrai em embalagem especial"
-      ],
-      [
-        "Indicação",
-        "para quem prefere presença, intensidade e visual premium"
-      ]
-    ]
-  }
-];
-
-let products = [...fallbackProducts];
+let WHATSAPP_NUMBER = "55XXXXXXXXXXX"; // sobrescrito por config.json (gerado por python -m entrelacos build)
+let SELLER_NAME = "";
+let products = [];
+let productsFailed = false;
 
 const money = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 
@@ -263,12 +21,25 @@ const zoomImageBtn = document.querySelector("#zoomImageBtn");
 
 const isTouchDevice = window.matchMedia("(hover: none)").matches;
 
+productGrid.addEventListener("error", event => {
+  if (event.target.tagName === "IMG") event.target.closest(".poster-wrap")?.classList.add("image-error");
+}, true);
+
+const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
+
+function orderCode() {
+  let code = "";
+  for (let i = 0; i < 4; i += 1) code += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
+  return `EL-${code}`;
+}
+
 function buildMessage(product) {
+  const greeting = SELLER_NAME ? `Oi, ${SELLER_NAME}!` : "Oi!";
   if (!product) {
-    return encodeURIComponent(`Oi, ${SELLER_NAME}! Vi a vitrine EntreLaços e queria consultar os kits disponíveis para o Dia dos Namorados.`);
+    return encodeURIComponent(`${greeting} Vi a vitrine EntreLaços e queria consultar os kits disponíveis.`);
   }
 
-  return encodeURIComponent(`Oi, ${SELLER_NAME}! Vi a vitrine EntreLaços e tenho interesse no ${product.name}, de ${money.format(product.price)}. Ainda está disponível?`);
+  return encodeURIComponent(`${greeting} Vi a vitrine EntreLaços e tenho interesse no ${product.name}, de ${money.format(product.price)}. Ainda está disponível? (pedido ${orderCode()})`);
 }
 
 function whatsappLink(product) {
@@ -278,6 +49,16 @@ function whatsappLink(product) {
 function discountPercent(product) {
   if (!product.oldPrice || product.oldPrice <= product.price) return null;
   return Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100);
+}
+
+function loadConfig() {
+  return fetch("config.json", { cache: "no-store" })
+    .then(response => (response.ok ? response.json() : {}))
+    .then(config => {
+      if (config.whatsapp) WHATSAPP_NUMBER = config.whatsapp;
+      SELLER_NAME = config.vendedor || "";
+    })
+    .catch(() => {});
 }
 
 function loadProducts() {
@@ -292,8 +73,8 @@ function loadProducts() {
       }
     })
     .catch(error => {
-      console.warn("Products JSON falhou. Usando fallback interno para manter a vitrine visível.", error);
-      products = [...fallbackProducts];
+      console.warn("products.json não carregou.", error);
+      productsFailed = true;
     });
 }
 
@@ -311,7 +92,6 @@ function productTemplate(product) {
           alt="${product.name}"
           loading="lazy"
           decoding="async"
-          onerror="this.closest('.poster-wrap').classList.add('image-error')"
         />
         <span class="badge">${product.badge}</span>
         ${discount ? `<span class="badge-discount">-${discount}%</span>` : ""}
@@ -326,7 +106,7 @@ function productTemplate(product) {
           </div>
 
           <div class="price-wrap" aria-label="Preço promocional">
-            <span class="old-price">De ${money.format(product.oldPrice)}</span>
+            ${product.oldPrice ? `<span class="old-price">De ${money.format(product.oldPrice)}</span>` : ""}
             <strong class="price">Por ${money.format(product.price)}</strong>
           </div>
         </div>
@@ -334,7 +114,7 @@ function productTemplate(product) {
         <div class="tag-row">${tags}</div>
 
         <div class="product-actions">
-          <a class="btn btn-primary ripple-target" href="${whatsappLink(product)}" target="_blank" rel="noopener">
+          <a class="btn btn-primary ripple-target" href="${whatsappLink(product)}" data-pedir="${product.id}" target="_blank" rel="noopener">
             Pedir
           </a>
           <button class="btn btn-ghost ripple-target details-btn" type="button" data-open="${product.id}">
@@ -352,11 +132,10 @@ function renderProducts(filter = "todos") {
   const filtered = products.filter(product => (product.categories || []).includes(filter));
   productGrid.innerHTML = filtered.length
     ? filtered.map(productTemplate).join("")
-    : `<p class="noscript">Nenhum kit encontrado nesse filtro.</p>`;
+    : `<p class="noscript">${productsFailed ? "Não foi possível carregar os produtos agora. Tente novamente em instantes." : "Nenhum kit encontrado nesse filtro."}</p>`;
 
   bindProductButtons();
   addRippleEffect();
-  initTilt();
   revealOnScroll();
 }
 
@@ -376,13 +155,14 @@ function openProduct(id) {
 
   document.querySelector("#modalTitle").textContent = product.name;
   document.querySelector("#modalSubtitle").textContent = product.line;
-  document.querySelector("#modalOldPrice").textContent = `De ${money.format(product.oldPrice)}`;
+  document.querySelector("#modalOldPrice").textContent = product.oldPrice ? `De ${money.format(product.oldPrice)}` : "";
   document.querySelector("#modalPrice").textContent = `Por ${money.format(product.price)}`;
   document.querySelector("#modalDetails").innerHTML = product.details.map(([label, value]) => `
     <div class="detail"><strong>${label}</strong><span>${value}</span></div>
   `).join("");
 
   modalWhatsapp.href = whatsappLink(product);
+  modalWhatsapp.dataset.pedir = product.id;
   modalWhatsapp.target = "_blank";
   modalWhatsapp.rel = "noopener";
 
@@ -546,22 +326,6 @@ function addRippleEffect() {
   });
 }
 
-function initTilt() {
-  if (!window.VanillaTilt || isTouchDevice) return;
-
-  document.querySelectorAll(".product-card, .benefit-card, .hero-spotlight").forEach(card => {
-    if (card.vanillaTilt) return;
-
-    VanillaTilt.init(card, {
-      max: 4,
-      speed: 350,
-      glare: true,
-      "max-glare": 0.10,
-      scale: 1.01
-    });
-  });
-}
-
 function revealOnScroll() {
   const trigger = window.innerHeight * 0.94;
 
@@ -576,6 +340,7 @@ window.addEventListener("scroll", revealOnScroll, { passive: true });
 window.addEventListener("load", revealOnScroll);
 
 async function init() {
+  await loadConfig();
   bindWhatsappLinks();
   bindMobileNav();
   addRippleEffect();
@@ -583,8 +348,15 @@ async function init() {
   await loadProducts();
   renderProducts("todos");
 
-  initTilt();
   revealOnScroll();
 }
+
+// Gera um código de pedido novo a cada clique em "Pedir" (permite ligar clique -> venda).
+document.addEventListener("click", event => {
+  const link = event.target.closest("[data-pedir]");
+  if (!link) return;
+  const product = products.find(item => item.id === link.dataset.pedir);
+  if (product) link.href = whatsappLink(product);
+});
 
 init();
